@@ -8,13 +8,18 @@ from .spice.spice import Spice
 
 
 class COCOEvalCap:
-    def __init__(self, coco, cocoRes):
+    def __init__(self, coco, cocoRes, exclude_scorers=[]):
         self.evalImgs = []
         self.eval = {}
         self.imgToEval = {}
         self.coco = coco
         self.cocoRes = cocoRes
         self.params = {'image_id': coco.getImgIds()}
+        self.exclude_scorers = []
+        for sc in exclude_scorers:
+            assert  sc.lower() in ['bleu', 'meteor', 'rouge_l', 'rouge', 'cider', 'spice']
+            self.exclude_scorers.append(sc.lower())
+
 
     def evaluate(self):
         imgIds = self.params['image_id']
@@ -37,12 +42,17 @@ class COCOEvalCap:
         # Set up scorers
         # =================================================
         print('setting up scorers...')
-        scorers = [
-            (Bleu(4), ["Bleu_1", "Bleu_2", "Bleu_3", "Bleu_4"]),
-            (Meteor(),"METEOR"),
-            (Rouge(), "ROUGE_L"),
-            (Cider(), "CIDEr"),
-            (Spice(), "SPICE")
+        scorers = []
+        if 'bleu' not in self.exclude_scorers:
+            scorers.append((Bleu(4), ["Bleu_1", "Bleu_2", "Bleu_3", "Bleu_4"]))
+        if 'meteor' not in self.exclude_scorers:
+            scorers.append((Meteor(),"METEOR"))
+        if 'rouge_l' not in self.exclude_scorers or 'rouge' not in self.exclude_scorers:
+            scorers.append((Rouge(), "ROUGE_L"))
+        if 'cider' not in self.exclude_scorers:
+            scorers.append((Cider(), "CIDEr"))
+        if 'spice' not in self.exclude_scorers:
+            scorers.append((Spice(), "SPICE"))
         ]
 
         # =================================================
