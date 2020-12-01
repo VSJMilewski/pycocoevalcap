@@ -36,9 +36,9 @@ class COCOEvalCap:
         # =================================================
         print('tokenization...')
         tokenizer = PTBTokenizer()
-        nltk_gts = StanfordTokenizer.tokenize(gts)
+        nltk_gts = StanfordTokenizer().tokenize(gts)
         gts = tokenizer.tokenize(gts)
-        nltk_res = StanfordTokenizer.tokenize(res)
+        nltk_res = StanfordTokenizer().tokenize(res)
         res = tokenizer.tokenize(res)
         print(nltk_gts)
         print(gts)
