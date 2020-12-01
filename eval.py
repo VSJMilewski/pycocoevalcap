@@ -8,7 +8,7 @@ from .spice.spice import Spice
 
 
 class COCOEvalCap:
-    def __init__(self, coco, cocoRes, exclude_scorers=[]):
+    def __init__(self, coco, cocoRes, exclude_scorers=()):
         self.evalImgs = []
         self.eval = {}
         self.imgToEval = {}
@@ -17,7 +17,8 @@ class COCOEvalCap:
         self.params = {'image_id': coco.getImgIds()}
         self.exclude_scorers = []
         for sc in exclude_scorers:
-            assert  sc.lower() in ['bleu', 'meteor', 'rouge_l', 'rouge', 'cider', 'spice']
+            assert  sc.lower() in ['bleu', 'meteor', 'rouge_l', 'rouge', 'cider', 'spice'], \
+                "{} is not an existing scorer".format(sc.lower())
             self.exclude_scorers.append(sc.lower())
 
 
@@ -53,7 +54,6 @@ class COCOEvalCap:
             scorers.append((Cider(), "CIDEr"))
         if 'spice' not in self.exclude_scorers:
             scorers.append((Spice(), "SPICE"))
-        ]
 
         # =================================================
         # Compute scores
