@@ -5,7 +5,7 @@ from .meteor.meteor import Meteor
 from .rouge.rouge import Rouge
 from .cider.cider import Cider
 from .spice.spice import Spice
-from nltk.tokenize.stanford import StanfordTokenizer
+
 
 class COCOEvalCap:
     def __init__(self, coco, cocoRes, exclude_scorers=()):
@@ -17,7 +17,7 @@ class COCOEvalCap:
         self.params = {'image_id': coco.getImgIds()}
         self.exclude_scorers = []
         for sc in exclude_scorers:
-            assert  sc.lower() in ['bleu', 'meteor', 'rouge_l', 'rouge', 'cider', 'spice'], \
+            assert sc.lower() in ['bleu', 'meteor', 'rouge_l', 'rouge', 'cider', 'spice'], \
                 "{} is not an existing scorer".format(sc.lower())
             self.exclude_scorers.append(sc.lower())
 
@@ -36,15 +36,8 @@ class COCOEvalCap:
         # =================================================
         print('tokenization...')
         tokenizer = PTBTokenizer()
-        nltk_gts = StanfordTokenizer().tokenize(gts)
         gts = tokenizer.tokenize(gts)
-        nltk_res = StanfordTokenizer().tokenize(res)
         res = tokenizer.tokenize(res)
-        print(nltk_gts)
-        print(gts)
-        print(nltk_res)
-        print(res)
-
         # =================================================
         # Set up scorers
         # =================================================
