@@ -9,7 +9,7 @@ coco = COCO(annotation_file)
 coco_result = coco.loadRes(results_file)
 
 # create coco_eval object by taking coco and coco_result
-coco_eval = COCOEvalCap(coco, coco_result)
+coco_eval = COCOEvalCap(coco, coco_result, exclude_scorers=['spice'])
 
 # evaluate on a subset of images by setting
 # coco_eval.params['image_id'] = coco_result.getImgIds()

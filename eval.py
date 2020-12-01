@@ -5,7 +5,7 @@ from .meteor.meteor import Meteor
 from .rouge.rouge import Rouge
 from .cider.cider import Cider
 from .spice.spice import Spice
-
+from nltk.tokenize.stanford import StanfordTokenizer
 
 class COCOEvalCap:
     def __init__(self, coco, cocoRes, exclude_scorers=()):
@@ -36,8 +36,14 @@ class COCOEvalCap:
         # =================================================
         print('tokenization...')
         tokenizer = PTBTokenizer()
-        gts  = tokenizer.tokenize(gts)
+        nltk_gts = StanfordTokenizer.tokenize(gts)
+        gts = tokenizer.tokenize(gts)
+        nltk_res = StanfordTokenizer.tokenize(res)
         res = tokenizer.tokenize(res)
+        print(nltk_gts)
+        print(gts)
+        print(nltk_res)
+        print(res)
 
         # =================================================
         # Set up scorers
