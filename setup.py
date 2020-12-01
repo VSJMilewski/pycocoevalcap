@@ -13,7 +13,7 @@ setup(
     description="MS-COCO Caption Evaluation for Python 3",
     long_description=readme,
     long_description_content_type="text/markdown",
-    url="https://github.com/salaniz/pycocoevalcap",
+    url="https://github.com/VSJMilewski/pycocoevalcap",
     packages=['pycocoevalcap']+package_names,
     package_dir={'pycocoevalcap': '.'},
     package_data={'': ['*.jar', '*.gz']},
